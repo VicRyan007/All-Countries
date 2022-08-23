@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default function Filtro() {
+
+function Filtro() {
+    const [inputValue, setInputValue] = useState()
     return (
         <div className="row">
-            <div className="col-6">
-                <input type="text" />
+            <div className="col-12 col-lg-10">
+                <input value={inputValue} onChange={(valor) => setInputValue(valor.target.value)} type="text"className="form-control" />
             </div>
-            <div className="col-3">
+            <div className="col-12 col-lg-1">
                 <strong>Países: 999</strong>
             </div>
-            <div className="col-3">
+            <div className="col-12 col-lg-1">
                 <strong>População: 9.000.000</strong>
             </div>
+            <p>{inputValue}</p>
         </div>
     )
 }
+
+export default Filtro;
