@@ -1,22 +1,14 @@
-import Card from "./models/Card";
+import React from "react"
+import Card from "./models/Card"
+import '../../css/pais.css';
 
-const [data,setData] =  useState([]);
 
-
-    fetch('https://restcountries.com/v3.1/all')
-    .then(resp => resp.json())
-    .then( json => {
-        const country = {
-            name: json.name.official,
-            flag: json.flag
-        }
-        console.log(json)
-        setData(country)
-    }
-    )
-
-export default function Countries(){
+export default function Countries(props){
     return (
-        <Card flag={data.flag} name={data.name} />
+        <div className="row container borda justify-content-around">
+                {props.listaPaises.map((p,i) => {
+                    return <Card key={i} name={p.name} flag={p.flag}/>
+                })}
+        </div>
     )
 }

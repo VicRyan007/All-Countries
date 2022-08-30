@@ -1,20 +1,27 @@
 import React, { useState } from "react";
 
 
-function Filtro() {
-    const [inputValue, setInputValue] = useState()
+function Filtro(props) {
+    
+    const [inputValue, setInputValue] = useState('')
+
+    function handleInputChange(event){
+        setInputValue(event.target.value)
+        props.onChangeFilterValue(event.target.value)
+    }
+
+
     return (
         <div className="row">
             <div className="col-12 col-lg-10">
-                <input value={inputValue} onChange={(valor) => setInputValue(valor.target.value)} type="text"className="form-control" />
+                <input value={inputValue} onChange={(handleInputChange)} type="text"className="form-control" />
             </div>
             <div className="col-12 col-lg-1">
-                <strong>Países: 999</strong>
+                <strong>Países: {props.totalPaises}</strong>
             </div>
             <div className="col-12 col-lg-1">
-                <strong>População: 9.000.000</strong>
+                <strong>População: {props.populacaoTotal}</strong>
             </div>
-            <p>{inputValue}</p>
         </div>
     )
 }
