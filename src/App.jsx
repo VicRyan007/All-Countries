@@ -1,41 +1,25 @@
-import React, { useState } from 'react'
-import Filtro from './components/filtro/Filtro'
-import Titulo from './components/titulo/Titulo'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Paises from './components/paises/Paises'
-import { useEffect } from 'react'
+import axios from "axios";
+import React, { useState } from "react";
+import { useEffect } from "react";
 
-function App() {
-  const [filtroValue, setFiltroValue] = useState('')
-  const [paises, setPaises] = useState([])
+export default function App() {
 
+
+
+  const [jogadores, setJogadores] = useState([]);
   useEffect(() => {
-    const coletaDados = async () => {
-      const data = await fetch('https://restcountries.com/v3.1/all')
-      const dataJson = await data.json()
-      const paisesNomeEBandeira = dataJson.map(pais => { return { 'nome': pais.translations.por.common[0].toUpperCase()+pais.translations.por.common.substr(1), 'bandeira': pais.flags.png, 'populacao': pais.population } })
-      setPaises(paisesNomeEBandeira)
-    }
+    fetch('https://www.balldontlie.io/api/v1/players')
+    .then(res => res.json())
+    .then(res => {
+      setJogadores(res)
+    });
+  }, []);
 
-    coletaDados().catch((err) => console.log(`erro: ${err}`))
-  }, [])
-
-  function handleFiltroValue(value) {
-    setFiltroValue(value)
-  }
+  console.log(jogadores)
 
   return (
-    <main  style={{backgroundColor: "gray"}}>
-      <div className='container'>
-        <Titulo />
-        <Filtro
-          totalDePaises={paises.filter(pais => pais.nome.includes(filtroValue.toLowerCase())).length}
-          populacaoTotal={paises.filter(pais => pais.nome.includes(filtroValue.toLowerCase())).reduce((acc, country) => acc + country.populacao, 0)}
-          onChangeFiltroValue={handleFiltroValue} />
-        <Paises listaDePaises={paises.filter(pais => pais.nome.includes(filtroValue.toUpperCase(1)))} />
-      </div>
-    </main>
-  )
+    <div className="App">
+      {Object.values(jogadores).map(x=>(<li key={x.id}><h1>{x.name}</h1></li>))}
+    </div>
+  );
 }
-
-export default App
